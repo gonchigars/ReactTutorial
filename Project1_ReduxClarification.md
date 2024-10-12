@@ -1,6 +1,68 @@
 
 # Complete Redux Tutorial: From Simple Counter to Multiple Counters
 
+### JavaScript Concepts Used:
+
+1. **Variables and Constants**: 
+   - `let`, `const` for variable declarations.
+  
+2. **Arrow Functions**: 
+   - Concise syntax for function expressions, such as `(param) => expression`.
+  
+3. **Promises and Asynchronous JavaScript (`async/await`)**:
+   - Handling asynchronous API requests with `async/await` for server communication.
+
+4. **Destructuring**:
+   - Extracting values from arrays or objects into variables (e.g., `const { count } = props`).
+  
+5. **Spread Operator (`...`)**:
+   - Used to copy arrays or objects and perform immutable updates (e.g., `{ ...state, counters: action.payload }`).
+  
+6. **Modules and Imports**:
+   - ES6 modules for organizing and importing/exporting components, actions, and reducers (e.g., `import React from 'react';`).
+  
+7. **Conditional Rendering**:
+   - Render different components or states based on conditions, such as checking if counters are loaded.
+
+---
+
+### React Concepts Used:
+
+1. **Functional Components**:
+   - Defining components as JavaScript functions (e.g., `const Counter = () => {}`).
+
+2. **Hooks**:
+   - **`useState`**: Manage local state within functional components.
+   - **`useEffect`**: Handle side effects (e.g., fetching data on component mount).
+   - **`useDispatch` and `useSelector`** (Redux hooks):
+     - `useDispatch`: Dispatch Redux actions.
+     - `useSelector`: Access Redux state.
+
+3. **React-Redux Integration**:
+   - **Redux Store**: Global state container for managing application-wide state.
+   - **Actions and Reducers**: Functions to define how state changes in response to actions.
+   - **Redux Thunk**: Middleware to handle asynchronous actions such as API calls.
+
+4. **React Components and Props**:
+   - Reusing and passing data via props (e.g., passing `index` and `onResetAll` to `Counter` components).
+
+5. **Event Handling**:
+   - Handling user interactions like button clicks using `onClick` events.
+
+6. **State Management with Redux**:
+   - Global state management using Redux for scalable and predictable state handling.
+   - **Immutable State Updates**: Using techniques like the spread operator to ensure immutability.
+
+7. **API Integration with Axios**:
+   - Axios is used to make HTTP requests (GET, PUT, POST) to the Spring Boot backend.
+
+8. **Side Effect Management with Redux Thunk**:
+   - Thunks handle API calls asynchronously and dispatch actions upon success or failure.
+
+---
+
+These concepts form the core of the project, showing how React handles UI logic and interactions, while Redux provides a powerful state management system, especially when the app grows in complexity.
+
 ## Introduction
 
 In this tutorial, we will build two versions of a counter application. The first version will use React's `useState` hook to manage state, while the second version will use Redux for state management. By increasing the complexity of the application, we will demonstrate how Redux simplifies managing application state as the project grows.
