@@ -127,7 +127,7 @@ React encourages a more functional and declarative approach, which reduces the n
 ---
 
 These concepts form the core of the project, showing how React handles UI logic and interactions, while Redux provides a powerful state management system, especially when the app grows in complexity.
-
+``` Javascript
 // Step 1: Initialize the Project with Redux Integration
 // Run these commands in the terminal
 // npx create-react-app redux-todo-app
@@ -316,3 +316,5 @@ test('renders add todo button', () => {
   const buttonElement = screen.getByText(/add todo/i);
   expect(buttonElement).toBeInTheDocument();
 });
+
+``` Javascript
