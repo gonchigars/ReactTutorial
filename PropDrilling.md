@@ -73,8 +73,6 @@ const UserInfo = () => {
         type="text" 
         value={user.name} 
         onChange={handleNameChange}
-
-``` javascript
         placeholder="Change name"
       />
     </div>
@@ -82,3 +80,5 @@ const UserInfo = () => {
 };
 
 export default UserInfo;
+
+``` javascript
