@@ -137,7 +137,7 @@ These concepts form the core of the project, showing how React handles UI logic 
 // Step 2: Set up Redux
 // src/redux/store.js
 import { createStore } from 'redux';
-import { todoReducer } from './todoReducer';
+import todoReducer from './todoReducer';
 
 const store = createStore(todoReducer);
 
@@ -148,7 +148,7 @@ const initialState = {
   todos: []
 };
 
-export const todoReducer = (state = initialState, action) => {
+const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return {
@@ -164,6 +164,8 @@ export const todoReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default todoReducer;
 
 // src/redux/actions.js
 export const addTodo = (todo) => ({
@@ -316,5 +318,4 @@ test('renders add todo button', () => {
   const buttonElement = screen.getByText(/add todo/i);
   expect(buttonElement).toBeInTheDocument();
 });
-
 ``` Javascript
