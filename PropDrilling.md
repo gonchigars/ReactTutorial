@@ -1,3 +1,4 @@
+``` javascript
 // File: App.js
 import React, { useState, createContext, useContext } from 'react';
 
@@ -71,7 +72,9 @@ const UserInfo = () => {
       <input 
         type="text" 
         value={user.name} 
-        onChange={handleNameChange} 
+        onChange={handleNameChange}
+
+``` javascript
         placeholder="Change name"
       />
     </div>
