@@ -1,53 +1,31 @@
-```javascript
-// First, let's set up our Redux store, actions, and reducers
+``` javascript
+// File: App.js
+import React, { useState, createContext, useContext } from 'react';
 
-// userReducer.js
-const initialState = { name: 'John Doe', email: 'john@example.com' };
+// Create Context
+const UserContext = createContext();
 
-export const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'SET_USER_NAME':
-      return { ...state, name: action.payload };
-    default:
-      return state;
-  }
-};
-
-// actions.js
-export const setUserName = (name) => ({
-  type: 'SET_USER_NAME',
-  payload: name
-});
-
-// store.js
-import { createStore } from 'redux';
-import { userReducer } from './userReducer';
-
-export const store = createStore(userReducer);
-
-// Now, let's refactor our components to use Redux
-
-// App.js
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import MainContent from './MainContent';
-
+// Top-level component
 const App = () => {
+  const [user, setUser] = useState({ name: 'John Doe', email: 'john@example.com' });
+
   return (
-    <Provider store={store}>
+    <UserContext.Provider value={{ user, setUser }}>
       <div>
         <h1>My App</h1>
         <MainContent />
       </div>
-    </Provider>
+    </UserContext.Provider>
   );
 };
 
-// MainContent.js
+export default App;
+
+// File: MainContent.js
 import React from 'react';
 import UserProfile from './UserProfile';
 
+// Intermediate component that doesn't use user data
 const MainContent = () => {
   return (
     <div>
@@ -57,10 +35,13 @@ const MainContent = () => {
   );
 };
 
-// UserProfile.js
+export default MainContent;
+
+// File: UserProfile.js
 import React from 'react';
 import UserInfo from './UserInfo';
 
+// Another intermediate component
 const UserProfile = () => {
   return (
     <div>
@@ -70,17 +51,18 @@ const UserProfile = () => {
   );
 };
 
-// UserInfo.js
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setUserName } from './actions';
+export default UserProfile;
 
+// File: UserInfo.js
+import React, { useContext } from 'react';
+import { UserContext } from './App';
+
+// Component that actually uses the user data
 const UserInfo = () => {
-  const user = useSelector(state => state);
-  const dispatch = useDispatch();
+  const { user, setUser } = useContext(UserContext);
 
   const handleNameChange = (e) => {
-    dispatch(setUserName(e.target.value));
+    setUser({ ...user, name: e.target.value });
   };
 
   return (
@@ -97,11 +79,9 @@ const UserInfo = () => {
   );
 };
 
-export default App;
+export default UserInfo;
+``` javascript
 
-```
-
-Now, let me explain how this Redux implementation solves the prop drilling issue:
 
 1. **Centralized State**: 
    - We've moved the user state into a Redux store, which is provided at the top level of our app.
