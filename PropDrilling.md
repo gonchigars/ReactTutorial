@@ -1,40 +1,65 @@
-```javascript
-import React, { useState } from 'react';
+// File: App.js
+import React, { useState, createContext, useContext } from 'react';
+
+// Create Context
+const UserContext = createContext();
 
 // Top-level component
 const App = () => {
   const [user, setUser] = useState({ name: 'John Doe', email: 'john@example.com' });
 
   return (
-    <div>
-      <h1>My App</h1>
-      <MainContent user={user} setUser={setUser} />
-    </div>
+    <UserContext.Provider value={{ user, setUser }}>
+      <div>
+        <h1>My App</h1>
+        <MainContent />
+      </div>
+    </UserContext.Provider>
   );
 };
 
+export default App;
+
+// File: MainContent.js
+import React from 'react';
+import UserProfile from './UserProfile';
+
 // Intermediate component that doesn't use user data
-const MainContent = ({ user, setUser }) => {
+const MainContent = () => {
   return (
     <div>
       <h2>Main Content</h2>
-      <UserProfile user={user} setUser={setUser} />
+      <UserProfile />
     </div>
   );
 };
 
+export default MainContent;
+
+// File: UserProfile.js
+import React from 'react';
+import UserInfo from './UserInfo';
+
 // Another intermediate component
-const UserProfile = ({ user, setUser }) => {
+const UserProfile = () => {
   return (
     <div>
       <h3>User Profile</h3>
-      <UserInfo user={user} setUser={setUser} />
+      <UserInfo />
     </div>
   );
 };
 
+export default UserProfile;
+
+// File: UserInfo.js
+import React, { useContext } from 'react';
+import { UserContext } from './App';
+
 // Component that actually uses the user data
-const UserInfo = ({ user, setUser }) => {
+const UserInfo = () => {
+  const { user, setUser } = useContext(UserContext);
+
   const handleNameChange = (e) => {
     setUser({ ...user, name: e.target.value });
   };
@@ -53,34 +78,4 @@ const UserInfo = ({ user, setUser }) => {
   );
 };
 
-export default App;
-
-```
-
-demonstrates prop drilling:
-
-1. **The Problem**: 
-   We have user data (`user` state and `setUser` function) defined in the `App` component, but it's only actually used in the deeply nested `UserInfo` component.
-
-2. **Prop Drilling in Action**: 
-   - The `user` and `setUser` props are passed from `App` to `MainContent`.
-   - `MainContent` doesn't use these props, but passes them down to `UserProfile`.
-   - `UserProfile` also doesn't use these props, but passes them down to `UserInfo`.
-   - Finally, `UserInfo` actually uses the `user` data and `setUser` function.
-
-3. **Why It's Problematic**:
-   - `MainContent` and `UserProfile` are unnecessarily coupled to the `user` data. If we wanted to reuse these components in a different context, we'd have to remember to pass these props.
-   - If we need to add more user-related data or functions, we'd need to update the prop list in multiple components.
-   - It's harder to understand where data is coming from and where it's being used.
-   - In larger applications with more levels of nesting, this problem becomes even more pronounced.
-
-4. **Maintenance Issues**: 
-   - If we decide to change the structure of the `user` object, we might need to update multiple components, even ones that don't directly use the data.
-   - Adding new features that require passing more props would mean updating every component in the chain.
-
-5. **Performance Considerations**: 
-   - In a more complex app, changes to the `user` state could trigger re-renders in components that don't actually use the data, potentially impacting performance.
-
-This is a simplified example, but in larger applications, you might see prop drilling through many more levels, and with many more props. This is where solutions like Redux, Context API, or other state management approaches become valuable.
-
-
+export default UserInfo;
