@@ -1,3 +1,4 @@
+```Javascript
 // File: App.js
 import React from 'react';
 import MainContent from './MainContent';
@@ -113,5 +114,6 @@ const userSlice = createSlice({
 export const { updateUser } = userSlice.actions;
 export default userSlice.reducer;
 
+``` Javascript
 
 npm install @reduxjs/toolkit react-redux
