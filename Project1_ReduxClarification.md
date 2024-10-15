@@ -127,6 +127,11 @@ React encourages a more functional and declarative approach, which reduces the n
 ---
 
 These concepts form the core of the project, showing how React handles UI logic and interactions, while Redux provides a powerful state management system, especially when the app grows in complexity.
+
+```
+npm install redux react-redux
+```
+
 ``` Javascript
 // Step 1: Initialize the Project with Redux Integration
 // Run these commands in the terminal
@@ -166,6 +171,7 @@ const todoReducer = (state = initialState, action) => {
 };
 
 export default todoReducer;
+
 
 // src/redux/actions.js
 export const addTodo = (todo) => ({
