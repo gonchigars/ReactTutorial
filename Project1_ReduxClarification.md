@@ -325,3 +325,145 @@ test('renders add todo button', () => {
   expect(buttonElement).toBeInTheDocument();
 });
 ``` Javascript
+
+To add a toggle button to change the background color and maintain the state using Redux, you can follow these steps:
+
+### Step 1: Update the Redux Store to Handle Background Color State
+
+First, update your `initialState` to include a background color state in `todoReducer`. You will also add a new action type to handle the toggle background color functionality.
+
+#### src/redux/todoReducer.js
+```javascript
+const initialState = {
+  todos: [],
+  isDarkMode: false,  // Add a flag to track background color mode
+};
+
+const todoReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [...state.todos, action.payload],
+      };
+    case 'DELETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter((_, index) => index !== action.payload),
+      };
+    case 'TOGGLE_BACKGROUND':  // New case for toggling background color
+      return {
+        ...state,
+        isDarkMode: !state.isDarkMode,  // Toggle the dark mode state
+      };
+    default:
+      return state;
+  }
+};
+
+export default todoReducer;
+```
+
+### Step 2: Create a Toggle Action
+
+Add an action to handle the background toggle.
+
+#### src/redux/actions.js
+```javascript
+export const addTodo = (todo) => ({
+  type: 'ADD_TODO',
+  payload: todo,
+});
+
+export const deleteTodo = (index) => ({
+  type: 'DELETE_TODO',
+  payload: index,
+});
+
+export const toggleBackground = () => ({  // New action for toggling background color
+  type: 'TOGGLE_BACKGROUND',
+});
+```
+
+### Step 3: Add Toggle Button to App Component
+
+Next, modify the `App.js` to include a toggle button and hook it up to the Redux store.
+
+#### src/App.js
+```javascript
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, deleteTodo, toggleBackground } from './redux/actions';
+import TodoList from './TodoList';
+import './App.css';
+
+function App() {
+  const [input, setInput] = useState('');
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todos);
+  const isDarkMode = useSelector((state) => state.isDarkMode);  // Fetch background mode from Redux
+
+  const handleAddTodo = () => {
+    if (input.trim()) {
+      dispatch(addTodo(input));
+      setInput('');
+    }
+  };
+
+  const handleToggleBackground = () => {
+    dispatch(toggleBackground());  // Dispatch the action to toggle background color
+  };
+
+  return (
+    <div className={`App ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>  {/* Apply class based on state */}
+      <h1>Redux Todo App</h1>
+      <div className="input-container">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter a todo"
+        />
+        <button onClick={handleAddTodo}>Add Todo</button>
+      </div>
+      <button onClick={handleToggleBackground}>Toggle Background Color</button>  {/* Toggle Button */}
+      <TodoList todos={todos} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Step 4: Update the Styles
+
+Finally, update the CSS to add styles for both light and dark modes.
+
+#### src/App.css
+```css
+.App {
+  text-align: center;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.input-container {
+  margin: 20px;
+}
+
+button {
+  margin-left: 10px;
+}
+
+.light-mode {
+  background-color: white;
+  color: black;
+}
+
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+```
+
+Now, the app includes a toggle button that switches the background color between light and dark modes, and the state is maintained in Redux.
